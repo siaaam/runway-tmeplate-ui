@@ -1,0 +1,61 @@
+.member_feedback {
+  width: 95% !important;
+}
+
+#testimonial {
+  position: relative !important;
+}
+
+.slick-arrow {
+  background: green !important;
+  height: 40px !important;
+  width: 40px !important;
+  position: absolute !important;
+}
+
+.slick-prev {
+  left: 464px !important;
+  top: 360px !important;
+}
+
+.slick-next {
+  right: 545px !important;
+  top: 361px !important;
+}
+
+/* scroll to top */
+
+.scrollTopIcon {
+  position: fixed;
+  right: 10px;
+  bottom: 20px;
+  z-index: 999;
+  height: 40px;
+  width: 40px;
+  display: none;
+}
+
+.visible {
+  display: inline-block;
+}
+
+.bg-green {
+  background: #97005a !important;
+}
+
+.cd-headline {
+  display: flex;
+  align-items: center;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+}
+
+footer {
+  position: fixed !important;
+  bottom: 0;
+  z-index: 999;
+}
