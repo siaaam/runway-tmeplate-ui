@@ -44,6 +44,7 @@ const BlogDetails = () => {
       getBlog();
     }
   }, [token, tokenLoaded]);
+
   return (
     <div style={{ marginTop: '70px', background: 'rgba(0, 0, 0, 0.1)' }}>
       <BlogHeader>

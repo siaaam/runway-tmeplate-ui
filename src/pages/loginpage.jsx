@@ -38,6 +38,8 @@ const Login = () => {
       });
       const info = res.data;
       saveAuthInfo(info);
+      // setNewLogin(true);
+
       setUser({
         id: info.user.id,
         email: info.user.id,

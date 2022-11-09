@@ -22,14 +22,11 @@ const BlogCategories = () => {
   const [blogs, setBlogs] = useState([]);
   const [blogsLoaded, setBlogsLoaded] = useState(false);
 
-  console.log(blogs);
-
   const [filteredBlogsData, setFilteredBlogsData] = useState([]);
   // const [filteredBlogsDataLoaded, setFilterBlogDataLoaded] = useState(false);
 
   const navigate = useNavigate();
   const params = useParams();
-  console.log(params);
 
   const filteredBlogs = () => {
     const filterdArr = blogs.filter(

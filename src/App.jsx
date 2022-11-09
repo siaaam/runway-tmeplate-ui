@@ -52,14 +52,70 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:id" element={<BlogCategories />} />
-          <Route path="/blogDetails/:id" element={<BlogDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/addBlog" element={<AddBlog />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/blog"
+            element={
+              <AuthRequired>
+                <BlogPage />
+              </AuthRequired>
+            }
+          />
+          <Route
+            path="/blog/:id"
+            element={
+              <AuthRequired>
+                <BlogCategories />
+              </AuthRequired>
+            }
+          />
+          <Route
+            path="/blogDetails/:id"
+            element={
+              <AuthRequired>
+                <BlogDetails />
+              </AuthRequired>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/registration"
+            element={
+              <PublicRoute>
+                <Registration />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <AuthRequired>
+                <Dashboard />
+              </AuthRequired>
+            }
+          />
+          <Route
+            path="/addBlog"
+            element={
+              <AuthRequired>
+                <AddBlog />
+              </AuthRequired>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <AuthRequired>
+                <Profile />
+              </AuthRequired>
+            }
+          />
         </Routes>
       </Layout>
     </>
