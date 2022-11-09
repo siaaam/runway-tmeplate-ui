@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Content, FlexWrapper, MenuBar } from '../styles/dashBoardStyles';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { BlogContext } from '../context/BlogContext';
 import { AiOutlineEdit, AiFillDelete } from 'react-icons/ai';
 import { AuthContext } from '../context/AuthContext';
@@ -8,9 +8,12 @@ import axios from 'axios';
 import axiosAPI from '../utils/axiosAPI';
 import useToken from '../hooks/useToken';
 import formatCategories from '../utils/formatCategories';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  const { blogs, blogsLoaded, setBlogs } = useContext(BlogContext);
+  const navigate = useNavigate();
+
+  const { blogs, blogsLoaded, setBlogs, editBlog } = useContext(BlogContext);
   const { user, userLoaded } = useContext(AuthContext);
   const { token, tokenLoaded } = useToken();
 
@@ -110,7 +113,9 @@ const Dashboard = () => {
                             <AiFillDelete onClick={() => deleteBlog(blog.id)} />
                           </span>
                           <span>
-                            <AiOutlineEdit />
+                            <AiOutlineEdit
+                              onClick={() => navigate(`/editBlog/${blog.id}`)}
+                            />
                           </span>
                         </div>
                       </td>

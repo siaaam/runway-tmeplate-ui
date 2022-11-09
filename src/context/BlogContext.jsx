@@ -66,7 +66,7 @@ export const BlogProvider = ({ children }) => {
     try {
       const res = await axiosAPI({
         method: 'post',
-        url: '/blogs',
+        url: '/blogs?populate=*',
         data: {
           data: blog,
         },
@@ -77,6 +77,7 @@ export const BlogProvider = ({ children }) => {
         },
       });
       const formattedBlogData = formatSingleItem(res.data);
+      // console.log(formattedBlogData);
 
       setBlogs([...blogs, formattedBlogData]);
       navigate('/blog');
@@ -106,6 +107,49 @@ export const BlogProvider = ({ children }) => {
     }
   };
 
+  const editBlog = async (id, blogToEdit) => {
+    try {
+      const res = await axiosAPI({
+        method: 'put',
+        url: `/blogs/${id}`,
+        data: {
+          data: blogToEdit,
+        },
+        config: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      });
+      const blogAfterEdit = formatSingleItem(res.data);
+
+      // find blog from blogs
+
+      // update the current object with blogtoedit
+
+      const blogsAfterUpdate = blogs.map((blog) => {
+        if (blog.id === blogAfterEdit.id) {
+          return {
+            id: blog.id,
+            ...blogAfterEdit,
+          };
+        } else {
+          return blog;
+        }
+      });
+
+      setBlogs(blogsAfterUpdate);
+      navigate('/blog');
+      // const formattedBlogData = formatSingleItem(res.data);
+
+      // setBlogs([...blogs, formattedBlogData]);
+      // navigate('/blog');
+    } catch (err) {
+      console.log(err);
+      console.log(err.response);
+    }
+  };
+
   const value = {
     categories,
     blogs,
@@ -113,6 +157,7 @@ export const BlogProvider = ({ children }) => {
     blogsLoaded,
     addBlog,
     deleteBlog,
+    editBlog,
   };
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;
 };

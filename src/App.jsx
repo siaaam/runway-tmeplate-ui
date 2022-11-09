@@ -25,6 +25,7 @@ import BlogDetails from './pages/blogDetails';
 import Dashboard from './pages/dashboard';
 import AddBlog from './pages/addblog';
 import Profile from './pages/proflle';
+import EditBlog from './pages/editblog';
 
 const AuthRequired = ({ children }) => {
   const location = useLocation();
@@ -105,6 +106,14 @@ function App() {
             element={
               <AuthRequired>
                 <AddBlog />
+              </AuthRequired>
+            }
+          />
+          <Route
+            path="/editBlog/:id"
+            element={
+              <AuthRequired>
+                <EditBlog />
               </AuthRequired>
             }
           />

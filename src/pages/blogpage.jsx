@@ -13,6 +13,7 @@ import {
 
 const BlogPage = () => {
   const { categories, blogs } = useContext(BlogContext);
+  console.log(blogs);
   const navigate = useNavigate();
   return (
     <div style={{ marginTop: '70px', background: 'rgba(0, 0, 0, 0.1)' }}>
@@ -39,7 +40,10 @@ const BlogPage = () => {
                 <p>{blog.description}</p>
               </div>
               <BlogCardFooter>
-                <div>Author</div>
+                <div>
+                  Author :{' '}
+                  <span>{blog?.author?.data?.attributes?.username}</span>
+                </div>
                 <div>
                   {new Date(blog.createdAt).toLocaleDateString('en-US', {
                     day: '2-digit',

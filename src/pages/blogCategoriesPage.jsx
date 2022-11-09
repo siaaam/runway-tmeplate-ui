@@ -40,7 +40,7 @@ const BlogCategories = () => {
     try {
       const data = await axiosAPI({
         method: 'get',
-        url: '/blogs?populate=category',
+        url: '/blogs?populate=*',
         config: {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -92,7 +92,10 @@ const BlogCategories = () => {
                 <p>{blog.description}</p>
               </div>
               <BlogCardFooter>
-                <div>author</div>
+                <div>
+                  Author :{' '}
+                  <span>{blog?.author?.data?.attributes?.username}</span>
+                </div>
                 <div>
                   {new Date(blog.createdAt).toLocaleDateString('en-US', {
                     day: '2-digit',
