@@ -1,3 +1,4 @@
+// import { convert } from 'html-to-text';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { BlogContext } from '../context/BlogContext';
@@ -14,6 +15,8 @@ import {
 import axiosAPI from '../utils/axiosAPI';
 import formatSingleItem from '../utils/formatSingleItem';
 
+import ReactMarkdown from 'react-markdown';
+
 const BlogDetails = () => {
   const { categories } = useContext(BlogContext);
   const [blog, setBlog] = useState({});
@@ -25,7 +28,7 @@ const BlogDetails = () => {
     try {
       const res = await axiosAPI({
         method: 'get',
-        url: `/blogs/${id}`,
+        url: `/blogs/${id}?populate=*`,
         config: {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -33,11 +36,14 @@ const BlogDetails = () => {
         },
       });
       const formattedBlog = formatSingleItem(res.data);
+      console.log(formattedBlog);
       setBlog(formattedBlog);
     } catch (err) {
       console.log(err);
     }
   };
+
+  // const blogMarkDown = turndownService.turndown(blog.content);
 
   useEffect(() => {
     if (tokenLoaded) {
@@ -60,14 +66,18 @@ const BlogDetails = () => {
         <Blogs>
           <BlogCard key={blog.id}>
             <div>
-              <img src="../images/blog/01.jpg" alt="" />
+              <img src={blog?.image?.data?.attributes?.url} alt="" />
             </div>
             <div>
               <h3>{blog.title}</h3>
-              <p>{blog.description}</p>
+              <p style={{ background: '#fee', padding: '10px' }}>
+                {blog.description}
+              </p>
+
+              <ReactMarkdown>{blog.content}</ReactMarkdown>
             </div>
             <BlogCardFooter>
-              <div>Author</div>
+              <div>Author : {blog?.author?.data?.attributes?.username}</div>
               <div>
                 {new Date(blog.createdAt).toLocaleDateString('en-US', {
                   day: '2-digit',

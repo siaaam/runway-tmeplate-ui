@@ -1,6 +1,15 @@
 import React from 'react';
+import SkillBar from 'react-skillbars';
 
 const Skill = () => {
+  const skills = [
+    { type: 'Java', level: 85 },
+    { type: 'Javascript', level: 75 },
+    { type: 'PHP', level: 90 },
+    { type: 'UI/UX', level: 80 },
+    { type: 'English', level: 90 },
+  ];
+
   return (
     <section id="skill" name="skill" className="py_80 bg_secondery full_row">
       <div className="container">
@@ -43,7 +52,7 @@ const Skill = () => {
               </div>
             </div>
             <div className="col-md-12 col-lg-6">
-              <div className="skill-progress wow animated slideInRight">
+              {/* <div className="skill-progress wow animated slideInRight">
                 <div className="prgs-bar fact-counter">
                   <span>HTML</span>
                   <div className="progress count wow" data-wow-duration="0ms">
@@ -149,7 +158,8 @@ const Skill = () => {
                     ></div>
                   </div>
                 </div>
-              </div>
+              </div> */}
+              <SkillBar skills={skills} />
             </div>
           </div>
         </div>

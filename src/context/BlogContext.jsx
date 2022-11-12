@@ -1,18 +1,22 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import useToken from '../hooks/useToken';
 import axiosAPI from '../utils/axiosAPI';
 import formatCategories from '../utils/formatCategories';
 import { useNavigate } from 'react-router-dom';
 import formatSingleItem from '../utils/formatSingleItem';
 import axios from 'axios';
+import { axiosPrivateInstance } from '../utils/axios';
+import { AuthContext } from './AuthContext';
 
 export const BlogContext = createContext();
 
 export const BlogProvider = ({ children }) => {
+  const { user } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState([]);
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState(false);
   const [blogsLoaded, setBlogsLoaded] = useState(false);
 
   const { token, tokenLoaded } = useToken();
@@ -46,7 +50,6 @@ export const BlogProvider = ({ children }) => {
           },
         },
       });
-      console.log(data.meta);
       const formattedCategories = formatCategories(data.data);
       setBlogs(formattedCategories);
       setBlogsLoaded(true);
@@ -62,29 +65,60 @@ export const BlogProvider = ({ children }) => {
     }
   }, [token, tokenLoaded]);
 
-  const addBlog = async (blog) => {
-    try {
-      const res = await axiosAPI({
-        method: 'post',
-        url: '/blogs?populate=*',
-        data: {
-          data: blog,
-        },
-        config: {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      });
-      const formattedBlogData = formatSingleItem(res.data);
-      // console.log(formattedBlogData);
+  const addBlog = async (blog, markdown) => {
+    // console.log(blog);
 
+    const blogData = {
+      title: blog.title,
+      description: blog.description,
+      category: blog.category,
+      author: user.id,
+      content: markdown,
+    };
+
+    const formData = new FormData();
+
+    formData.append('files.image', blog.image[0], blog.image[0].name);
+    formData.append('data', JSON.stringify(blogData));
+
+    // console.log(formData);
+
+    try {
+      const res = await axiosPrivateInstance(token).post(
+        '/blogs?populate=*',
+        formData
+      );
+      const formattedBlogData = formatSingleItem(res.data.data);
       setBlogs([...blogs, formattedBlogData]);
       navigate('/blog');
     } catch (err) {
       console.log(err);
       console.log(err.response);
     }
+
+    // try {
+    //   const res = await axiosAPI({
+    //     method: 'post',
+    //     url: '/blogs?populate=*',
+    //     data: {
+    //       data: formData,
+    //     },
+    //     config: {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     },
+    //   });
+    //   console.log(res.data);
+    //   const formattedBlogData = formatSingleItem(res.data);
+    //   console.log(formattedBlogData);
+
+    //   setBlogs([...blogs, formattedBlogData]);
+    //   navigate('/blog');
+    // } catch (err) {
+    //   console.log(err);
+    //   console.log(err.response);
+    // }
   };
 
   const deleteBlog = async (id) => {
@@ -108,6 +142,7 @@ export const BlogProvider = ({ children }) => {
   };
 
   const editBlog = async (id, blogToEdit) => {
+    const foundBlog = blogs.find((blog) => blog.id === id);
     try {
       const res = await axiosAPI({
         method: 'put',

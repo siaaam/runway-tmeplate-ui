@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { InputWrapper } from '../styles/addBlogStyles';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { BlogContext } from '../context/BlogContext';
+import JoditEditor from 'jodit-react';
+import TurndownService from 'turndown';
 
 const schema = yup
   .object({
@@ -14,6 +16,10 @@ const schema = yup
   .required();
 
 const AddBlog = () => {
+  let turndownService = new TurndownService();
+  const editor = useRef(null);
+  const [content, setContent] = useState('');
+
   const { addBlog, categories } = useContext(BlogContext);
   const {
     register,
@@ -23,8 +29,10 @@ const AddBlog = () => {
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
+    const markdown = turndownService.turndown(content);
+
     // console.log(data);
-    addBlog(data);
+    addBlog(data, markdown);
   };
 
   return (
@@ -33,7 +41,10 @@ const AddBlog = () => {
     >
       <div className="container">
         <h2 className="py-4">Add Blog</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          style={{ paddingBottom: '60px' }}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <InputWrapper>
             <label htmlFor="title">Title</label>
             <input type="text" {...register('title')} />
@@ -55,6 +66,20 @@ const AddBlog = () => {
                 </option>
               ))}
             </select>
+          </InputWrapper>
+
+          <InputWrapper>
+            <label htmlFor="image">Image</label>
+            <input type="file" accept="image/*" {...register('image')} />
+          </InputWrapper>
+
+          <InputWrapper>
+            <label htmlFor="content">Content</label>
+            <JoditEditor
+              ref={editor}
+              value={content}
+              onChange={(newContent) => setContent(newContent)}
+            />
           </InputWrapper>
 
           <button className="btn btn-primary mt-4" type="submit">

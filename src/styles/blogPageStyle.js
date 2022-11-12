@@ -35,6 +35,7 @@ export const Blogs = styled.div`
 
 export const RightSide = styled.div`
   flex: 1;
+  overflow: scroll;
 `;
 
 export const BlogCard = styled.div`
@@ -71,13 +72,40 @@ export const Categories = styled.div`
   background: white;
   padding: 20px 30px;
   position: sticky;
-  top: 80px;
+  margin-bottom: 40px;
+  /* top: 80px; */
 
   a {
     color: #000;
     transition: all 0.2 ease;
     &:hover {
       opacity: 0.7;
+    }
+  }
+`;
+
+export const Recent = styled.div`
+  /* color: red; */
+  /* position: sticky; */
+  /* top: 400px; */
+  background: white;
+  padding: 20px 30px;
+  /* top: 400px; */
+  /* z-index: 99999; */
+  /* overflow-y: hidden; */
+
+  li {
+    background: #ddd;
+    padding: 5px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+
+    a {
+      color: #000;
+
+      &:hover {
+        color: #999;
+      }
     }
   }
 `;

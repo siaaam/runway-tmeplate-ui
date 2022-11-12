@@ -1,8 +1,15 @@
 import React from 'react';
+import CountUp from 'react-countup';
+import { useInView } from 'react-intersection-observer';
 
 const Experience = () => {
+  const [ref, inView] = useInView();
+
   return (
-    <div className="experience background2 overlay_two py_60 full_row">
+    <div
+      ref={ref}
+      className="experience background2 overlay_two py_60 full_row"
+    >
       <div className="container">
         <div className="row">
           <div className="col-md-12 col-lg-12">
@@ -16,7 +23,7 @@ const Experience = () => {
                     <span className="flaticon-man-working-on-a-laptop-from-side-view"></span>
                     <div className="counting_digit color_default mt_15">
                       <h2 className="count-num" data-speed="3000" data-stop="7">
-                        0
+                        {inView ? <CountUp end={5} /> : 0}
                       </h2>
                       <span>+</span>
                     </div>
@@ -35,7 +42,7 @@ const Experience = () => {
                         data-speed="3000"
                         data-stop="145"
                       >
-                        0
+                        {inView ? <CountUp end={100} /> : 0}
                       </h2>
                       <span>+</span>
                     </div>
@@ -54,7 +61,7 @@ const Experience = () => {
                         data-speed="3000"
                         data-stop="137"
                       >
-                        0
+                        {inView ? <CountUp end={20} /> : 0}
                       </h2>
                       <span>+</span>
                     </div>

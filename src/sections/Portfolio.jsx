@@ -1,6 +1,18 @@
-import React from 'react';
+import { isDragActive } from 'framer-motion';
+import React, { useState } from 'react';
+import { lists } from '../staticData/Lists';
+// import { setActiveLink } from 'react-scroll/modules/mixins/scroller';
 
 const Portfolio = () => {
+  const [items, setItem] = useState(lists);
+
+  const filterItem = (catItem) => {
+    // console.log(e);
+    // setActive(true);
+    const filteredItem = lists.filter((item) => item.category === catItem);
+    setItem(filteredItem);
+  };
+
   return (
     <section
       name="portfolio"
@@ -32,16 +44,17 @@ const Portfolio = () => {
                   <div className="filters mb_30 w-100 text-center">
                     <ul className="filter-tabs mx-auto d-inline-block">
                       <li
-                        className="active filter"
+                        className=" filter"
                         data-role="button"
                         data-filter="all"
+                        onClick={() => setItem(lists)}
                       >
                         All
                       </li>
                       <li
-                        className="filter"
                         data-role="button"
                         data-filter=".design"
+                        onClick={() => filterItem('design')}
                       >
                         Web Design
                       </li>
@@ -49,6 +62,7 @@ const Portfolio = () => {
                         className="filter"
                         data-role="button"
                         data-filter=".wordpress"
+                        onClick={() => filterItem('wordpress')}
                       >
                         Wordpress
                       </li>
@@ -56,6 +70,7 @@ const Portfolio = () => {
                         className="filter"
                         data-role="button"
                         data-filter=".development"
+                        onClick={() => filterItem('development')}
                       >
                         Web Development
                       </li>
@@ -63,6 +78,7 @@ const Portfolio = () => {
                         className="filter"
                         data-role="button"
                         data-filter=".branding"
+                        onClick={() => filterItem('branding')}
                       >
                         Branding
                       </li>
@@ -74,28 +90,31 @@ const Portfolio = () => {
               <div className="filter-list">
                 <div className="portfolio-items">
                   <div className="row">
-                    <div className="column mix mix_all graphic development wordpress mb_30 col-md-4 col-lg-4">
-                      <div className="default-portfolio-item">
-                        <a
-                          href="images/portfolio/01.jpg"
-                          data-fancybox="gallery"
-                        >
-                          <img src="images/portfolio/01.jpg" alt="image" />
-                          <div className="overlay-box">
-                            <span>
-                              <i className="fa fa-eye" aria-hidden="true"></i>
-                            </span>
-                            <div className="tag">
-                              <ul>
-                                <li>Web Development,</li>
-                                <li>wordpress</li>
-                              </ul>
+                    {console.log(items)}
+                    {items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="column  mb_30 col-md-4 col-lg-4"
+                      >
+                        <div className="default-portfolio-item">
+                          <a href={item.img} data-fancybox="gallery">
+                            <img src={item.img} alt="image" />
+                            <div className="overlay-box">
+                              <span>
+                                <i className="fa fa-eye" aria-hidden="true"></i>
+                              </span>
+                              <div className="tag">
+                                <ul>
+                                  <li>{item.category}</li>
+                                </ul>
+                              </div>
                             </div>
-                          </div>
-                        </a>
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                    <div className="column mix mix_all graphic branding mb_30 col-md-4 col-lg-4">
+                    ))}
+
+                    {/* <div className="column  graphic branding mb_30 col-md-4 col-lg-4">
                       <div className="default-portfolio-item">
                         <a
                           href="images/portfolio/02.jpg"
@@ -116,7 +135,7 @@ const Portfolio = () => {
                         </a>
                       </div>
                     </div>
-                    <div className="column mix mix_all design wordpress development mb_30 col-md-4 col-lg-4">
+                    <div className="column  design wordpress development mb_30 col-md-4 col-lg-4">
                       <div className="default-portfolio-item">
                         <a
                           href="images/portfolio/03.jpg"
@@ -137,7 +156,7 @@ const Portfolio = () => {
                         </a>
                       </div>
                     </div>
-                    <div className="column mix mix_all graphic wordpress branding mb_30 col-md-4 col-lg-4">
+                    <div className="column  graphic wordpress branding mb_30 col-md-4 col-lg-4">
                       <div className="default-portfolio-item">
                         <a
                           href="images/portfolio/04.jpg"
@@ -158,7 +177,7 @@ const Portfolio = () => {
                         </a>
                       </div>
                     </div>
-                    <div className="column mix mix_all graphic design branding mb_30 col-md-4 col-lg-4">
+                    <div className="column graphic design branding mb_30 col-md-4 col-lg-4">
                       <div className="default-portfolio-item">
                         <a
                           href="images/portfolio/05.jpg"
@@ -179,7 +198,7 @@ const Portfolio = () => {
                         </a>
                       </div>
                     </div>
-                    <div className="column mix mix_all development wordpress design mb_30 col-md-4 col-lg-4">
+                    <div className="column  development wordpress design mb_30 col-md-4 col-lg-4">
                       <div className="default-portfolio-item">
                         <a
                           href="images/portfolio/06.jpg"
@@ -199,7 +218,7 @@ const Portfolio = () => {
                           </div>
                         </a>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

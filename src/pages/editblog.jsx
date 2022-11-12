@@ -33,7 +33,6 @@ const EditBlog = () => {
   });
   const onSubmit = (data) => {
     editBlog(id, data);
-    // addBlog(data);
   };
 
   const getBlog = async () => {

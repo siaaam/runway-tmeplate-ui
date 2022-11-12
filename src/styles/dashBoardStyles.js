@@ -10,7 +10,7 @@ export const MenuBar = styled.div`
   flex: 1;
   background: white;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-  height: 80vh;
+  height: 75vh;
 
   ul {
     li {

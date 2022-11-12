@@ -83,7 +83,10 @@ const BlogCategories = () => {
           {filteredBlogsData.map((blog) => (
             <BlogCard key={blog.id}>
               <div>
-                <img src="../images/blog/01.jpg" alt="" />
+                <img
+                  src={blog?.image?.data?.attributes?.formats?.medium?.url}
+                  alt=""
+                />
               </div>
               <div>
                 <h3>
