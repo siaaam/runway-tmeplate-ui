@@ -58,6 +58,7 @@ const Header = () => {
                 <>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="home"
@@ -137,6 +138,7 @@ const Header = () => {
                   </li> */}
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="blog"
@@ -164,6 +166,7 @@ const Header = () => {
                   </li> */}
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       // activeClass="active"
                       to=""
@@ -178,6 +181,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       // activeClass="active"
                       to=""
@@ -195,6 +199,7 @@ const Header = () => {
                 <>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="home"
@@ -209,6 +214,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="about"
@@ -222,6 +228,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="skill"
@@ -235,6 +242,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="services"
@@ -248,6 +256,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="portfolio"
@@ -261,6 +270,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="testimonial"
@@ -274,6 +284,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="blog"
@@ -288,6 +299,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="contact"
@@ -301,6 +313,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to="signin"
@@ -315,6 +328,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     <Link
+                      style={{ cursor: 'pointer' }}
                       className="nav-link"
                       activeClass="active"
                       to=""

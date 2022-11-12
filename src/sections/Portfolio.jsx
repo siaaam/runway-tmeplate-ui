@@ -90,7 +90,6 @@ const Portfolio = () => {
               <div className="filter-list">
                 <div className="portfolio-items">
                   <div className="row">
-                    {console.log(items)}
                     {items.map((item) => (
                       <div
                         key={item.id}

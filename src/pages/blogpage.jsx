@@ -10,11 +10,21 @@ import {
   BlogHeader,
   Blogs,
   Categories,
+  Pagination,
   Recent,
   RightSide,
 } from '../styles/blogPageStyle';
 import axiosAPI from '../utils/axiosAPI';
 import formatCategories from '../utils/formatCategories';
+import qs from 'qs';
+
+const generateArr = (num) => {
+  const arr = [];
+  for (let i = 1; i <= num; i++) {
+    arr.push(i);
+  }
+  return arr;
+};
 
 const BlogPage = () => {
   const { categories } = useContext(BlogContext);
@@ -25,11 +35,34 @@ const BlogPage = () => {
   const { token, tokenLoaded } = useToken();
   const [recentBlogs, setRecentBlogs] = useState([]);
 
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageCount, setPageCount] = useState(null);
+
+  const pageCountArr = generateArr(pageCount);
+
+  const handlePageClick = (evt) => {
+    setPageNumber(+evt.target.dataset.id);
+  };
+
   const loadAllBlogs = async () => {
+    const query = qs.stringify(
+      {
+        pagination: {
+          page: pageNumber,
+          pageSize: 5,
+        },
+        populate: '*',
+      },
+
+      {
+        encodeValuesOnly: true, // prettify URL
+      }
+    );
+
     try {
       const res = await axiosAPI({
         method: 'get',
-        url: '/blogs?populate=*',
+        url: `/blogs?${query}`,
         config: {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,10 +70,13 @@ const BlogPage = () => {
         },
       });
 
+      const paginationInfo = res.meta;
+
+      setPageCount(paginationInfo.pagination.pageCount);
+
       setAllBlogs(formatCategories(res.data).reverse());
       setAllBlogsLoaded(true);
       setRecentBlogs(formatCategories(res.data).reverse().slice(0, 3));
-      console.log(allBlogs);
     } catch (err) {
       console.log(err);
       console.log(err.response);
@@ -51,101 +87,130 @@ const BlogPage = () => {
     if (token) {
       loadAllBlogs();
     }
-  }, [token, tokenLoaded]);
+  }, [token, tokenLoaded, pageNumber]);
 
   const navigate = useNavigate();
   return (
-    <div style={{ marginTop: '70px', background: 'rgba(0, 0, 0, 0.1)' }}>
-      <BlogHeader>
-        <h1>Blog</h1>
-        <p>
-          <span onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-            home
-          </span>
-          | <span>Blog</span>
-        </p>
-      </BlogHeader>
-      <BlogBody className="container">
-        <Blogs>
-          {allBlogs.length <= 0 ? (
-            <h2 style={{ color: 'red' }}>No blogs to show!</h2>
-          ) : (
-            allBlogs.map((blog) => (
-              <BlogCard key={blog.id}>
-                <div>
-                  <img src={blog?.image?.data?.attributes?.url} alt="" />
-                </div>
-                <div>
-                  <h3>
-                    <Link to={`/blogDetails/${blog.id}`}>{blog.title}</Link>
-                  </h3>
-                  <p>{blog.description}</p>
-                </div>
-                <BlogCardFooter>
-                  <div>
-                    Author :{' '}
-                    <span>{blog?.author?.data?.attributes?.username}</span>
-                  </div>
-                  <div>
-                    {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: '2-digit',
-                    })}
-                  </div>
-                </BlogCardFooter>
-              </BlogCard>
-            ))
-          )}
-        </Blogs>
-        <RightSide>
-          <Categories>
-            <h2>Categories</h2>
-            <div
-              style={{
-                width: '70px',
-                background: 'pink',
-                height: '5px',
-                marginBottom: '20px',
-              }}
-            ></div>
-            <ul>
-              <li>
-                <Link to="/blog">All</Link>
-              </li>
-              {categories.map((category) => (
-                <li key={category.id}>
-                  {' '}
-                  <Link to={`/blog/${category.slug}`}>{category.title}</Link>
-                </li>
-              ))}
-            </ul>
-          </Categories>
-          <Recent>
-            <h2>Recent</h2>
-            <div
-              style={{
-                width: '70px',
-                background: 'pink',
-                height: '5px',
-                marginBottom: '20px',
-              }}
-            ></div>
+    <>
+      <div style={{ marginTop: '70px', background: 'rgba(0, 0, 0, 0.1)' }}>
+        <BlogHeader>
+          <h1>Blog</h1>
+          <p>
+            <span onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+              home
+            </span>
+            | <span>Blog</span>
+          </p>
+        </BlogHeader>
+        <div className="container">
+          <BlogBody>
+            <Blogs>
+              {allBlogs.length <= 0 ? (
+                <h2 style={{ color: 'red' }}>No blogs to show!</h2>
+              ) : (
+                allBlogs.map((blog) => (
+                  <BlogCard key={blog.id}>
+                    <div>
+                      <img src={blog?.image?.data?.attributes?.url} alt="" />
+                    </div>
+                    <div>
+                      <h3>
+                        <Link to={`/blogDetails/${blog.id}`}>{blog.title}</Link>
+                      </h3>
+                      <p>{blog.description}</p>
+                    </div>
+                    <BlogCardFooter>
+                      <div>
+                        Author :{' '}
+                        <span>{blog?.author?.data?.attributes?.username}</span>
+                      </div>
+                      <div>
+                        {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: '2-digit',
+                        })}
+                      </div>
+                    </BlogCardFooter>
+                  </BlogCard>
+                ))
+              )}
+            </Blogs>
+            <RightSide>
+              <Categories>
+                <h2>Categories</h2>
+                <div
+                  style={{
+                    width: '70px',
+                    background: 'pink',
+                    height: '5px',
+                    marginBottom: '20px',
+                  }}
+                ></div>
+                <ul>
+                  <li>
+                    <Link to="/blog">All</Link>
+                  </li>
+                  {categories.map((category) => (
+                    <li key={category.id}>
+                      {' '}
+                      <Link to={`/blog/${category.slug}`}>
+                        {category.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Categories>
+              <Recent>
+                <h2>Recent</h2>
+                <div
+                  style={{
+                    width: '70px',
+                    background: 'pink',
+                    height: '5px',
+                    marginBottom: '20px',
+                  }}
+                ></div>
 
-            <ul>
-              {recentBlogs.map((blog) => (
-                <li key={blog.id}>
-                  <h4>
-                    <Link to={`/blogDetails/${blog.id}`}>{blog.title}</Link>
-                  </h4>
-                  <p>{`${blog.description.slice(0, 35)}...`}</p>
-                </li>
-              ))}
+                <ul>
+                  {recentBlogs.map((blog) => (
+                    <li key={blog.id}>
+                      <h4>
+                        <Link to={`/blogDetails/${blog.id}`}>{blog.title}</Link>
+                      </h4>
+                      <p>{`${blog.description.slice(0, 35)}...`}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Recent>
+            </RightSide>
+          </BlogBody>
+          <Pagination className="mb-4" aria-label="Page navigation example">
+            <ul className="d-flex">
+              {pageCountArr.map((count, i) => {
+                return (
+                  <>
+                    <li
+                      key={i}
+                      style={{
+                        background: '#eee',
+                        borderRadius: '50%',
+                        cursor: 'pointer',
+                      }}
+                      className="page-item p-4"
+                      data-id={count}
+                      onClick={handlePageClick}
+                    >
+                      {count}
+                    </li>
+                  </>
+                );
+              })}
             </ul>
-          </Recent>
-        </RightSide>
-      </BlogBody>
-    </div>
+          </Pagination>
+        </div>
+      </div>
+    </>
   );
 };
 

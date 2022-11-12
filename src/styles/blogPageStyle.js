@@ -27,14 +27,15 @@ export const BlogBody = styled.div`
   display: flex;
   gap: 2rem;
   padding: 60px 0 60px 0;
+  width: 100%;
 `;
 
 export const Blogs = styled.div`
-  flex: 2;
+  flex: 7;
 `;
 
 export const RightSide = styled.div`
-  flex: 1;
+  flex: 5;
   overflow: scroll;
 `;
 
@@ -108,4 +109,8 @@ export const Recent = styled.div`
       }
     }
   }
+`;
+
+export const Pagination = styled.nav`
+  padding: 0 0 100px 0;
 `;

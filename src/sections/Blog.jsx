@@ -6,7 +6,6 @@ import formatCategories from '../utils/formatCategories';
 
 const Blog = () => {
   const [homeBlogs, setHomeBlogs] = useState([]);
-  console.log(homeBlogs);
   const loadBlogs = async () => {
     try {
       const res = await axios.get('http://localhost:1337/api/blogs?populate=*');
