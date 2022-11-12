@@ -50,6 +50,7 @@ export const BlogProvider = ({ children }) => {
           },
         },
       });
+
       const formattedCategories = formatCategories(data.data);
       setBlogs(formattedCategories);
       setBlogsLoaded(true);

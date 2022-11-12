@@ -1,23 +1,25 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axiosAPI from '../utils/axiosAPI';
+import axiosAPI, { axiosInstance } from '../utils/axiosAPI';
 import formatCategories from '../utils/formatCategories';
 
 const Blog = () => {
   const [homeBlogs, setHomeBlogs] = useState([]);
   const loadBlogs = async () => {
     try {
-      const res = await axios.get('http://localhost:1337/api/blogs?populate=*');
+      const res = await axiosInstance.get('blogs?populate=*');
       setHomeBlogs(formatCategories(res.data.data.reverse().slice(0, 3)));
     } catch (err) {
       console.log(err);
       console.log(err.response);
     }
   };
+
   useEffect(() => {
     loadBlogs();
   }, []);
+
   const navigate = useNavigate();
   return (
     <section id="blog" name="blog" className="py_80 bg_secondery full_row">

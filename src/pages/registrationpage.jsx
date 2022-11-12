@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { axiosInstance } from '../utils/axiosAPI';
 
 const schema = yup
   .object({
@@ -36,14 +37,11 @@ const Registration = () => {
     const { username, password, email } = data;
 
     try {
-      const res = await axios.post(
-        'http://localhost:1337/api/auth/local/register',
-        {
-          username,
-          email,
-          password,
-        }
-      );
+      const res = await axiosInstance.post('auth/local/register', {
+        username,
+        email,
+        password,
+      });
       saveAuthInfo(res.data);
       navigate('/blog');
     } catch (err) {

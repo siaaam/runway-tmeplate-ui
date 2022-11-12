@@ -35,6 +35,7 @@ const BlogDetails = () => {
           },
         },
       });
+      console.log(res.data);
       const formattedBlog = formatSingleItem(res.data);
       setBlog(formattedBlog);
     } catch (err) {

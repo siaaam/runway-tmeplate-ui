@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import useToken from '../hooks/useToken';
 import axios from 'axios';
+import { axiosInstance } from '../utils/axiosAPI';
 
 export const AuthContext = createContext();
 
@@ -13,14 +14,11 @@ export const AuthProvider = ({ children }) => {
 
   const loadUser = async () => {
     try {
-      const res = await axios.get(
-        'http://localhost:1337/api/users/me?populate=blogs',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axiosInstance.get('users/me?populate=blogs', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const { id, email, username, blogs } = res.data;
       setUser({ id, email, username, blogs });
       // setNewLogin(true);

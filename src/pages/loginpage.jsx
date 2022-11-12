@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../utils/axiosAPI';
 
 const schema = yup
   .object({
@@ -32,7 +33,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {
-      const res = await axios.post('http://localhost:1337/api/auth/local', {
+      const res = await axiosInstance.post('auth/local', {
         identifier: email,
         password,
       });

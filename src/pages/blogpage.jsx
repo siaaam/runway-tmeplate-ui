@@ -49,7 +49,7 @@ const BlogPage = () => {
       {
         pagination: {
           page: pageNumber,
-          pageSize: 5,
+          pageSize: import.meta.env.VITE_PAGE_SIZE,
         },
         populate: '*',
       },
@@ -69,6 +69,8 @@ const BlogPage = () => {
           },
         },
       });
+
+      console.log(res.data);
 
       const paginationInfo = res.meta;
 
@@ -189,21 +191,19 @@ const BlogPage = () => {
             <ul className="d-flex">
               {pageCountArr.map((count, i) => {
                 return (
-                  <>
-                    <li
-                      key={i}
-                      style={{
-                        background: '#eee',
-                        borderRadius: '50%',
-                        cursor: 'pointer',
-                      }}
-                      className="page-item p-4"
-                      data-id={count}
-                      onClick={handlePageClick}
-                    >
-                      {count}
-                    </li>
-                  </>
+                  <li
+                    key={i}
+                    style={{
+                      background: '#eee',
+                      borderRadius: '50%',
+                      cursor: 'pointer',
+                    }}
+                    className="page-item p-4"
+                    data-id={count}
+                    onClick={handlePageClick}
+                  >
+                    {count}
+                  </li>
                 );
               })}
             </ul>
