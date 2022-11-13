@@ -66,7 +66,9 @@ const Blog = () => {
                             <h5>{blog.title}</h5>
                           </Link>
                         </div>
-                        <p className="mt_15 mb_30">{blog.description}</p>
+                        <p className="mt_15 mb_30">
+                          {blog.description.slice(0, 30)}
+                        </p>
 
                         <div className="admin">
                           {/* <img src="images/about/02.jpg" alt="image" /> */}
